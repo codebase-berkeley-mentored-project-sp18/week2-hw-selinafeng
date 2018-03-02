@@ -11,17 +11,22 @@ You can test your function by opening index.html in your browser and viewing the
 */
 
 function getElementsByClassName(strClassName) {
-  //=====================
-  // YOUR CODE HERE
-  //=====================
-  return;
+  root = document.body;
+  nodeArr = [];
+  function helper(node) {
+    function it(child) {
+      if (child.nodeType != Node.TEXT_NODE) {
+        if (child.classList.contains(strClassName)) {
+          nodeArr.push(child);
+        }
+        helper(child);
+      }
+    }
+    node.childNodes.forEach(it);
+  }
+  helper(root);
+  return nodeArr;
 }
-
-
-
-
-
-
 
 // ------TESTING----------
 // Don't touch me.
@@ -46,15 +51,39 @@ function assert(statement, err) {
     throw err;
   }
 }
-window.addEventListener("load", function() {
-  console.log("Testing getElementsByClassName...");
+window.addEventListener('load', function() {
+  console.log('Testing getElementsByClassName...');
   try {
-    assert(arraysEqual(document.getElementsByClassName("link"), getElementsByClassName("link")), "FAILED link");
-    assert(arraysEqual(document.getElementsByClassName("item"), getElementsByClassName("item")), "FAILED item");
-    assert(arraysEqual(document.getElementsByClassName("herolink"), getElementsByClassName("herolink")), "FAILED herolink");
-    assert(arraysEqual(document.getElementsByClassName("nonexistent"), getElementsByClassName("nonexistent")), "FAILED nonexistent class");
-    console.log("All test cases passed!");
+    assert(
+      arraysEqual(
+        document.getElementsByClassName('link'),
+        getElementsByClassName('link')
+      ),
+      'FAILED link'
+    );
+    assert(
+      arraysEqual(
+        document.getElementsByClassName('item'),
+        getElementsByClassName('item')
+      ),
+      'FAILED item'
+    );
+    assert(
+      arraysEqual(
+        document.getElementsByClassName('herolink'),
+        getElementsByClassName('herolink')
+      ),
+      'FAILED herolink'
+    );
+    assert(
+      arraysEqual(
+        document.getElementsByClassName('nonexistent'),
+        getElementsByClassName('nonexistent')
+      ),
+      'FAILED nonexistent class'
+    );
+    console.log('All test cases passed!');
   } catch (e) {
     throw e;
   }
-})
+});
