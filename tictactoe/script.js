@@ -21,6 +21,11 @@ addMessage("Player " + player + " it is your turn!", "standard");
 // -----------------------------------------------------------------
 
 // TODO: add the setSpot function to be the event to each "spot"
+var elems = document.getElementsByClassName("spot");
+console.log(elems);
+for (var i = 0; i < elems.length; i++) {
+  elems[i].addEventListener("click", setSpot);
+}
 
 
 // -----------------------------------------------------------------
@@ -30,15 +35,17 @@ addMessage("Player " + player + " it is your turn!", "standard");
 /* Upon receiving a valid selection this function
    adds the piece to the JavaScript board and the
    HTML board */
-function setSpot() {
+function setSpot(e) {
 	// TODO: assign id to be the id of the element that got selected
+  var id = e.target.id;
 	var row = getRow(id);
 	var col = getCol(id);
 
 	if (board[row][col] === '-') {
 		board[row][col] = player;
 		// TODO: add the player to the HTML board too (this is not the same as the 2D array)
-		
+		document.getElementById(id).innerHTML = player;
+
 		validInput = true;
 		moves += 1;
 		player = switchPlayer();
@@ -50,6 +57,10 @@ function setSpot() {
 		if (winner) {
 			addMessage("Congratulations, " + switchPlayer() + " you won!", "endgame");
 			// TODO: remove the event listener from every spot
+      var elems = document.getElementsByClassName("spot");
+      for (var i = 0; i < elems.length; i++) {
+        elems[i].removeEventListener("click", setSpot);
+      }
 		} else if (moves === 9) {
 			addMessage("You both suck, it's a tie!", "endgame");
 		}
@@ -58,6 +69,8 @@ function setSpot() {
 
 function addMessage(message, c) {
 	// change the message and assign the class c to the message paragraph
+    document.getElementById("message").innerHTML = message;
+    document.getElementById("message").className = c;
 }
 
 
@@ -103,10 +116,16 @@ function isWinner() {
 
 function getRow(id) {
 	// TODO: given the id (a string, return the row)
+  var row = Math.floor(parseInt(id) / 10);
+  console.log(row);
+  return row;
 }
 
 function getCol(id) {
 	// TODO: given the id (a string, return the col)
+  var col = parseInt(id) % 10;
+  console.log(col);
+  return col;
 }
 
 
