@@ -127,10 +127,3 @@ function getCol(id) {
   console.log(col);
   return col;
 }
-
-
-
-
-
-
-
